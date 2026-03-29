@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixIt ANYWHERE - Premium Home Services</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M240,115.39,139.36,32.32a16,16,0,0,0-22.72,0L16,115.39a8,8,0,1,0,10.21,12.35l11.79-9.75V208a16,16,0,0,0,16,16H202a16,16,0,0,0,16-16V118l11.79,9.75a8,8,0,1,0,10.21-12.35ZM144,208H112V160a16,16,0,0,1,32,0Z' fill='%2322c55e'/></svg>">
+    <meta name="description"
+        content="Book top-rated standard home services including plumbing, electrical repairs, cleaning, carpentry, and appliance servicing. Fast, reliable, and premium quality.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons (Lightweight icon library) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-container" style="padding-top: 1.5rem;">
+            <div class="logo">
+                <i class="ph-fill ph-house-line"></i> FixIt Anywhere
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close Menu">
+                    <i class="ph ph-x"></i>
+                </button>
+                <nav class="nav-links">
+                    <a href="#services" class="mobile-close">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#how-it-works">How it Works</a>
+                    <a href="#reviews">Reviews</a>
+                    <a href="#" class="join-pro-btn" id="open-worker-reg-btn">Join as Pro</a>
+                </nav>
+                <div class="nav-actions" style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline mobile-close" id="nav-write-review-btn"
+                        style="padding: 0.5rem 1rem; border: 1px solid var(--primary); color: var(--primary); background: transparent; border-radius: 2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i class="ph-bold ph-pencil-simple"></i> Write a Review
+                    </button>
+                    <button class="btn btn-primary nav-cta mobile-close" data-service="">Book Now</button>
+                </div>
+            </div>
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Menu">
+                <i class="ph-bold ph-list" id="hamburger-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="blur-blob top-left"></div>
+            <div class="blur-blob bottom-right"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Expert Home Care,<br><span>Just a Click Away.</span></h1>
+            <p class="hero-subtitle">Premium plumbing, electrical, cleaning, carpentry, and appliance servicing
+                delivered right to your doorstep.</p>
+            <div class="hero-actions">
+                <button class="btn btn-large btn-primary hero-btn" data-service="">Book a Service</button>
+                <a href="#services" class="btn btn-large btn-outline"
+                    style="background: rgba(255,255,255,0.8); backdrop-filter:blur(5px);">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="section-header">
+            <h2>Our Premium Services</h2>
+            <p>We provide top-tier professionals for every corner of your home.</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Plumbing -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/plumbing.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-drop"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Plumbing</h3>
+                    <p>Leak repairs, pipe installations, and complete bathroom overhauls by licensed experts.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="plumbing">Book Plumbing</button>
+            </div>
+
+            <!-- Electrical -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/electrical.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-lightning"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Electrical Repairs</h3>
+                    <p>Safe and efficient electrical troubleshooting, wiring, and fixture installations.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="electrical">Book Electrical</button>
+            </div>
+
+            <!-- Cleaning -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/cleaning.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-sparkle"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Deep Cleaning</h3>
+                    <p>Comprehensive home cleaning, sanitization, and organization services.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="cleaning">Book Cleaning</button>
+            </div>
+
+            <!-- Carpentry -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/carpentry.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-hammer"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Carpentry</h3>
+                    <p>Custom furniture assembly, woodwork repairs, and structural additions.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="carpentry">Book Carpentry</button>
+            </div>
+
+            <!-- Appliance Servicing -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/appliance.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-plug"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Appliance Servicing</h3>
+                    <p>Diagnosis and repair of ACs, refrigerators, ovens, and washing machines.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="appliance">Book Servicing</button>
+            </div>
+
+            <div id="worker-reg-modal" class="modal-backdrop hidden">
+                <div class="modal-content" style="max-width: 600px;">
+                    <button class="close-modal" id="close-worker-reg"><i class="ph ph-x"></i></button>
+                    <div class="modal-header">
+                        <h2>Join as a Professional</h2>
+                        <p>Register your interest and become part of our premium network.</p>
+                    </div>
+
+                    <div id="worker-reg-form-container">
+                        <form id="worker-reg-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reg-name">Full Name</label>
+                                    <input type="text" id="reg-name" placeholder="Alex Smith" required
+                                        data-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-email">Email Address</label>
+                                    <input type="email" id="reg-email" placeholder="alex@work.com" required
+                                        data-required="true">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reg-service">Primary Service</label>
+                                    <select id="reg-service" required data-required="true">
+                                        <option value="" disabled selected>Select Category</option>
+                                        <option value="plumbing">Plumbing</option>
+                                        <option value="electrical">Electrical</option>
+                                        <option value="cleaning">Cleaning</option>
+                                        <option value="carpentry">Carpentry</option>
+                                        <option value="appliance">Appliance</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-exp">Experience (Years)</label>
+                                    <input type="number" id="reg-exp" min="0" placeholder="5" required
+                                        data-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-bio">Tell us about your work</label>
+                                <textarea id="reg-bio" rows="3" placeholder="Briefly describe your expertise..."
+                                    required data-required="true"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit-btn" style="width: 100%;">Submit
+                                Application</button>
+                            <p
+                                style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+                                Already approved? <a href="worker_dashboard.html"
+                                    style="color: var(--primary); font-weight: 600;">View Dashboard</a>
+                            </p>
+                        </form>
+                    </div>
+
+                    <div id="worker-reg-success" class="hidden success-state"
+                        style="text-align: center; padding: 2rem 0;">
+                        <div class="success-icon" style="font-size: 4rem; color: var(--primary); margin-bottom: 1rem;">
+                            <i class="ph-fill ph-check-circle"></i>
+                        </div>
+                        <h3>Application Received!</h3>
+                        <p>An administrator will review your application and contact you soon.</p>
+                        <button class="btn btn-outline" id="close-reg-success"
+                            style="margin-top: 1.5rem;">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firebase SDKs -->
+            <!-- Car Wash -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/car_wash.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-car"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Car Wash</h3>
+                    <p>Complete interior and exterior premium car washing and detailing at your home.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="car-wash">Book Car Wash</button>
+            </div>
+
+            <!-- Garbage Collection -->
+            <div class="service-card">
+                <div class="card-img" style="background-image: url('assets/images/garbage.png');">
+                    <div class="card-icon"><i class="ph-duotone ph-trash"></i></div>
+                </div>
+                <div class="card-content">
+                    <h3>Garbage Collection</h3>
+                    <p>Eco-friendly waste removal, sorting, and responsible disposal services.</p>
+                </div>
+                <button class="btn btn-secondary book-service-btn" data-service="garbage">Book Collection</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section id="how-it-works" class="services"
+        style="background-color: hsla(var(--hue), 30%, 96%, 1); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Booking a service with FixIt Anywhere is designed to be as seamless as possible:</p>
+        </div>
+        <div
+            style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; padding: 0 2rem;">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div
+                    style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: var(--shadow-glow);">
+                    1</div>
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Choose Your Service</h3>
+                    <p style="color: var(--text-muted);">Select the specific help you need from our wide array of
+                        service categories (Plumbing, Cleaning, etc.).</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div
+                    style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: var(--shadow-glow);">
+                    2</div>
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Schedule a Slot</h3>
+                    <p style="color: var(--text-muted);">Pick a Preferred Date and Time that fits your busy lifestyle.
+                    </p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div
+                    style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: var(--shadow-glow);">
+                    3</div>
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Provide Details</h3>
+                    <p style="color: var(--text-muted);">Fill out a quick form with your address and any specific
+                        requirements for the task.</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div
+                    style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: var(--shadow-glow);">
+                    4</div>
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Instant Confirmation</h3>
+                    <p style="color: var(--text-muted);">We’ll match you with a qualified pro in your area and send a
+                        confirmation of your appointment.</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div
+                    style="background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: var(--shadow-glow);">
+                    5</div>
+                <div>
+                    <h3 style="margin-bottom: 0.5rem;">Relax & Get It Fixed</h3>
+                    <p style="color: var(--text-muted);">Our professional arrives on time, completes the job to your
+                        satisfaction, and you can pay securely through our platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="services">
+        <div class="section-header">
+            <h2>About FixIt Anywhere</h2>
+            <p>Your one-stop solution for reliable, professional, and on-demand home maintenance.</p>
+        </div>
+        <div
+            style="max-width: 900px; margin: 0 auto; padding: 0 2rem; color: var(--text-main); line-height: 1.8; font-size: 1.05rem;">
+            <p style="margin-bottom: 1.5rem;">We understand that keeping a home in top shape can be overwhelming, which
+                is why we’ve built a platform that brings expert service providers right to your doorstep with just a
+                few clicks.</p>
+            <p style="margin-bottom: 2rem;">Our mission is simple: to eliminate the stress of home repairs. Whether it’s
+                a leaky faucet, a flickering light, or a messy backyard, we connect you with skilled professionals who
+                are vetted, experienced, and ready to help. <strong style="color: var(--primary);">At FixIt Anywhere, we
+                    don't just fix things; we give you back your time.</strong></p>
+
+            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Our Services</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">We offer a comprehensive range of home solutions
+                tailored to meet your everyday needs:</p>
+
+            <ul style="list-style-type: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+                <li><i class="ph-bold ph-check"
+                        style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Plumbing:</strong> From minor
+                    leaks to major pipe installations.</li>
+                <li><i class="ph-bold ph-check"
+                        style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Electrical Repairs:</strong>
+                    Ensuring your home’s wiring and appliances are safe and functional.</li>
+                <li><i class="ph-bold ph-check" style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Deep
+                        Cleaning:</strong> Professional-grade cleaning for a spotless, healthy living environment.</li>
+                <li><i class="ph-bold ph-check"
+                        style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Carpentry:</strong> Expert
+                    woodcraft, furniture repair, and custom installations.</li>
+                <li><i class="ph-bold ph-check"
+                        style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Appliance Servicing:</strong>
+                    Maintenance and repair for your AC, fridge, washing machine, and more.</li>
+                <li><i class="ph-bold ph-check" style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Car
+                        Wash:</strong> Premium vehicle cleaning and detailing at your convenience.</li>
+                <li><i class="ph-bold ph-check" style="color: var(--primary); margin-right: 0.5rem;"></i><strong>Garbage
+                        Collection:</strong> Hassle-free and scheduled waste management solutions.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Reviews Preview Section -->
+    <section id="reviews" class="services"
+        style="background-color: hsla(var(--hue), 30%, 96%, 1); border-top: 1px solid var(--border-color); padding: 4rem 10%;">
+        <div class="section-header">
+            <h2>Customer Experiences</h2>
+            <p>See why homeowners trust ServEase for their home service needs.</p>
+        </div>
+
+        <div class="reviews-grid" id="reviews-container"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+            <!-- Dummy Review 1 -->
+            <div class="review-card"
+                style="background: var(--bg-color); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border-color);">
+                <div class="review-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="reviewer-info" style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="avatar"
+                            style="width: 40px; height: 40px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            SJ</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem; color: var(--text-color);">Sarah Jenkins</h4>
+                            <span class="service-tag" style="font-size: 0.8rem; color: var(--text-light);">Deep
+                                Cleaning</span>
+                        </div>
+                    </div>
+                    <div class="stars" style="color: #F59E0B; display: flex; gap: 0.2rem;">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text"
+                    style="color: var(--text-color); font-size: 0.95rem; line-height: 1.6; font-style: italic;">
+                    "Absolutely phenomenal service! The deep cleaning team was professional, thorough, and left my house
+                    looking like a 5-star hotel."</p>
+                <div class="review-date" style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-light);">October
+                    12, 2025</div>
+            </div>
+
+            <!-- Dummy Review 2 -->
+            <div class="review-card"
+                style="background: var(--bg-color); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border-color);">
+                <div class="review-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="reviewer-info" style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="avatar"
+                            style="width: 40px; height: 40px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            MR</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem; color: var(--text-color);">Michael Ross</h4>
+                            <span class="service-tag"
+                                style="font-size: 0.8rem; color: var(--text-light);">Plumbing</span>
+                        </div>
+                    </div>
+                    <div class="stars" style="color: #F59E0B; display: flex; gap: 0.2rem;">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star-half"></i>
+                    </div>
+                </div>
+                <p class="review-text"
+                    style="color: var(--text-color); font-size: 0.95rem; line-height: 1.6; font-style: italic;">"Had a
+                    major leak in the bathroom that needed immediate attention. FixIt Anywhere was there within an hour.
+                    Highly recommended."</p>
+                <div class="review-date" style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-light);">November
+                    4, 2025</div>
+            </div>
+
+            <!-- Dummy Review 3 -->
+            <div class="review-card"
+                style="background: var(--bg-color); padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border-color);">
+                <div class="review-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="reviewer-info" style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="avatar"
+                            style="width: 40px; height: 40px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            EL</div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1rem; color: var(--text-color);">Emily Larson</h4>
+                            <span class="service-tag"
+                                style="font-size: 0.8rem; color: var(--text-light);">Electrical</span>
+                        </div>
+                    </div>
+                    <div class="stars" style="color: #F59E0B; display: flex; gap: 0.2rem;">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text"
+                    style="color: var(--text-color); font-size: 0.95rem; line-height: 1.6; font-style: italic;">"The
+                    electrician was super neat, hid all wires perfectly, and explained the app controls patiently.
+                    Premium experience!"</p>
+                <div class="review-date" style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-light);">January
+                    20, 2026</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="reviews.html" class="btn btn-outline"
+                style="border: 2px solid var(--primary-color); color: var(--primary-color); background: transparent; padding: 0.8rem 2rem; border-radius: 2rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease;">
+                View All Reviews <i class="ph-bold ph-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <button class="close-modal"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Book a Service</h2>
+                <p>Fill out the details below and we'll confirm your appointment.</p>
+            </div>
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="service-type">Service Required</label>
+                    <select id="service-type" required data-required="true">
+                        <option value="" disabled selected>Select a Service</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical Repairs</option>
+                        <option value="cleaning">Deep Cleaning</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="appliance">Appliance Servicing</option>
+                        <option value="car-wash">Car Wash</option>
+                        <option value="garbage">Garbage Collection</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required data-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" required data-required="true">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="phone-wrapper">
+                            <div class="phone-prefix">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span class="country-code">+91</span>
+                            </div>
+                            <input type="tel" id="phone" class="phone-input" placeholder="98765 43210"
+                                pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" required
+                                data-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Service Address</label>
+                        <input type="text" id="address" placeholder="123 Main St, Apt 4B" required data-required="true">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <input type="date" id="date" required data-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <input type="time" id="time" required data-required="true">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary submit-btn">Confirm Booking</button>
+            </form>
+
+            <div id="booking-success" class="hidden success-state">
+                <div class="success-icon"><i class="ph-fill ph-check-circle"></i></div>
+                <h3>Booking Confirmed!</h3>
+                <p>We have received your request. Our professional will contact you shortly.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Submission Modal -->
+    <div id="review-modal" class="modal-backdrop hidden">
+        <div class="modal-content review-modal-content">
+            <button class="close-modal"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Share Your Experience</h2>
+                <p>Your feedback helps us provide premium service.</p>
+            </div>
+            <form id="review-form">
+                <div class="form-group rating-group">
+                    <label>Overall Rating</label>
+                    <div class="star-rating" id="star-rating"
+                        style="display: flex; gap: 0.5rem; font-size: 2rem; color: var(--border-color); cursor: pointer; margin-bottom: 1rem;">
+                        <i class="ph-bold ph-star" data-value="1"></i>
+                        <i class="ph-bold ph-star" data-value="2"></i>
+                        <i class="ph-bold ph-star" data-value="3"></i>
+                        <i class="ph-bold ph-star" data-value="4"></i>
+                        <i class="ph-bold ph-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="rating-value" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reviewer-name">Your Name</label>
+                        <input type="text" id="reviewer-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-service">Service Received</label>
+                        <select id="review-service" required>
+                            <option value="" disabled selected>Select a Service</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Electrical Repairs">Electrical Repairs</option>
+                            <option value="Deep Cleaning">Deep Cleaning</option>
+                            <option value="Carpentry">Carpentry</option>
+                            <option value="Appliance Servicing">Appliance Servicing</option>
+                            <option value="Car Wash">Car Wash</option>
+                            <option value="Garbage Collection">Garbage Collection</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="review-text">Your Review</label>
+                    <textarea id="review-text" rows="5" placeholder="Tell us about your premium experience..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
+            </form>
+
+            <div id="review-success" class="hidden success-state">
+                <div class="success-icon"><i class="ph-fill ph-check-circle"></i></div>
+                <h3>Thank You!</h3>
+                <p>Your review has been successfully submitted and helps us improve our high standards.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo footer-logo">
+                <i class="ph-fill ph-house-line"></i> FixIt Anywhere
+            </div>
+            <p>Premium home services, delivered right to your doorstep.</p>
+            <p class="copyright">&copy; 2026 FixIt Anywhere. All rights reserved.</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">Developed with ❤️ by **ABIJITH**</p>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <!-- Floating Chat Button -->
+        <button id="chat-toggle-btn" class="chat-toggle-btn" aria-label="Toggle support chat">
+            <i class="ph-bold ph-chat-teardrop-dots" id="chat-icon"></i>
+            <i class="ph-bold ph-x hidden" id="chat-close-icon"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window hidden">
+            <div class="chat-header">
+                <div>
+                    <h3>FixIt Support</h3>
+                    <span class="status-indicator"></span><span style="font-size: 0.8rem; opacity: 0.9;">Online</span>
+                </div>
+            </div>
+
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-message bot-message">
+                    Hi there! 👋 How can we help you with your home services today?
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off">
+                <button id="chat-send-btn" class="chat-send-btn" aria-label="Send message">
+                    <i class="ph-bold ph-paper-plane-tilt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="reviews.js"></script>
+</body>
+
+</html>

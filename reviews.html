@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - ServEase</title>
+    <meta name="description"
+        content="Read what our satisfied customers have to say about our premium home services. Leave your own review!">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;"><i
+                        class="ph-fill ph-house-line"></i> ServEase</a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <button class="close-mobile-menu" id="close-mobile-menu" aria-label="Close Menu">
+                    <i class="ph ph-x"></i>
+                </button>
+                <nav class="nav-links">
+                    <a href="index.html#services" class="mobile-close">Services</a>
+                    <a href="index.html#how-it-works" class="mobile-close">How it works</a>
+                    <a href="reviews.html" class="mobile-close">Reviews</a>
+                    <a href="index.html#about" class="mobile-close">About us</a>
+                </nav>
+                <a href="index.html" class="btn btn-primary nav-cta mobile-close">Book Now</a>
+            </div>
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Menu">
+                <i class="ph-bold ph-list" id="hamburger-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Reviews Header -->
+    <section class="reviews-header">
+        <div class="hero-bg">
+            <div class="blur-blob top-left"></div>
+            <div class="blur-blob bottom-right"></div>
+        </div>
+        <div class="reviews-title-container">
+            <h1>Customer <span>Experiences</span></h1>
+            <p>See why thousands of homeowners trust ServEase for their premium home service needs.</p>
+            <button class="btn btn-large btn-primary" id="write-review-btn">
+                <i class="ph-bold ph-pencil-simple"></i> Write a Review
+            </button>
+        </div>
+    </section>
+
+    <!-- Reviews Grid -->
+    <section class="reviews-section">
+        <div class="reviews-grid" id="reviews-container">
+            <!-- Dummy Review 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="avatar">SJ</div>
+                        <div>
+                            <h4>Sarah Jenkins</h4>
+                            <span class="service-tag">Deep Cleaning</span>
+                        </div>
+                    </div>
+                    <div class="stars">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text">"Absolutely phenomenonal service! The deep cleaning team was professional,
+                    thorough, and left my house looking like a 5-star hotel. Highly recommend them to anyone!"</p>
+                <div class="review-date">October 12, 2025</div>
+            </div>
+
+            <!-- Dummy Review 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="avatar">MR</div>
+                        <div>
+                            <h4>Michael Ross</h4>
+                            <span class="service-tag">Plumbing</span>
+                        </div>
+                    </div>
+                    <div class="stars">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star-half"></i>
+                    </div>
+                </div>
+                <p class="review-text">"Had a major leak in the bathroom that needed immediate attention. ServEase was
+                    there within an hour. The plumber was extremely knowledgeable and fixed it perfectly."</p>
+                <div class="review-date">November 4, 2025</div>
+            </div>
+
+            <!-- Dummy Review 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="avatar">EL</div>
+                        <div>
+                            <h4>Emily Larson</h4>
+                            <span class="service-tag">Electrical Repairs</span>
+                        </div>
+                    </div>
+                    <div class="stars">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text">"I needed my entire smart home lighting setup installed. The electrician was
+                    super neat, hid all wires perfectly, and explained the app controls patiently. Premium experience!"
+                </p>
+                <div class="review-date">January 20, 2026</div>
+            </div>
+
+            <!-- Dummy Review 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="avatar">DT</div>
+                        <div>
+                            <h4>David Thompson</h4>
+                            <span class="service-tag">Carpentry</span>
+                        </div>
+                    </div>
+                    <div class="stars">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-bold ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text">"They built custom bookshelves for my home office. The craftsmanship is
+                    beautiful, though they had to reschedule once. The final product was worth the wait."</p>
+                <div class="review-date">February 15, 2026</div>
+            </div>
+
+            <!-- Dummy Review 5 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="avatar">AK</div>
+                        <div>
+                            <h4>Aisha Khan</h4>
+                            <span class="service-tag">Appliance Servicing</span>
+                        </div>
+                    </div>
+                    <div class="stars">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                            class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                </div>
+                <p class="review-text">"My refrigerator broke down right before a big party. ServEase saved the day!
+                    Quick diagnosis and they had the spare part ready. Lifesavers!"</p>
+                <div class="review-date">March 2, 2026</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Submission Modal -->
+    <div id="review-modal" class="modal-backdrop hidden">
+        <div class="modal-content review-modal-content">
+            <button class="close-modal"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Share Your Experience</h2>
+                <p>Your feedback helps us provide premium service.</p>
+            </div>
+            <form id="review-form">
+                <div class="form-group rating-group">
+                    <label>Overall Rating</label>
+                    <div class="star-rating" id="star-rating">
+                        <i class="ph-bold ph-star" data-value="1"></i>
+                        <i class="ph-bold ph-star" data-value="2"></i>
+                        <i class="ph-bold ph-star" data-value="3"></i>
+                        <i class="ph-bold ph-star" data-value="4"></i>
+                        <i class="ph-bold ph-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="rating-value" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reviewer-name">Your Name</label>
+                        <input type="text" id="reviewer-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-service">Service Received</label>
+                        <select id="review-service" required>
+                            <option value="" disabled selected>Select a Service</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Electrical Repairs">Electrical Repairs</option>
+                            <option value="Deep Cleaning">Deep Cleaning</option>
+                            <option value="Carpentry">Carpentry</option>
+                            <option value="Appliance Servicing">Appliance Servicing</option>
+                            <option value="Car Wash">Car Wash</option>
+                            <option value="Garbage Collection">Garbage Collection</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="review-text">Your Review</label>
+                    <textarea id="review-text" rows="5" placeholder="Tell us about your premium experience..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
+            </form>
+
+            <div id="review-success" class="hidden success-state">
+                <div class="success-icon"><i class="ph-fill ph-check-circle"></i></div>
+                <h3>Thank You!</h3>
+                <p>Your review has been successfully submitted and helps us improve our high standards.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo footer-logo">
+                <i class="ph-fill ph-house-line"></i> ServEase
+            </div>
+            <p>Premium home services, delivered right to your doorstep.</p>
+            <p class="copyright">&copy; 2026 ServEase. All rights reserved.</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">Developed with ❤️ by **ABIJITH**</p>
+        </div>
+    </footer>
+
+    <script src="reviews.js"></script>
+</body>
+
+</html>

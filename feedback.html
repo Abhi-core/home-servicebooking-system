@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Your Experience - FixIt Anywhere</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M240,115.39,139.36,32.32a16,16,0,0,0-22.72,0L16,115.39a8,8,0,1,0,10.21,12.35l11.79-9.75V208a16,16,0,0,0,16,16H202a16,16,0,0,0,16-16V118l11.79,9.75a8,8,0,1,0,10.21-12.35ZM144,208H112V160a16,16,0,0,1,32,0Z' fill='%2322c55e'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .feedback-container { max-width: 500px; margin: 8rem auto; padding: 3rem; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg); text-align: center; }
+        .star-rating { display: flex; justify-content: center; gap: 0.75rem; margin: 2rem 0; font-size: 2.5rem; color: #ddd; }
+        .star-rating i { cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; }
+        .star-rating i:hover { transform: scale(1.1); }
+        .star-rating i.active { color: #FFB800; }
+        .comment-box { width: 100%; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-family: var(--font-body); min-height: 120px; transition: border-color 0.2s; margin-bottom: 2rem; background: var(--bg-color); }
+        .comment-box:focus { border-color: var(--primary); outline: none; }
+        .service-info { font-weight: 600; color: var(--primary); background: hsla(145, 70%, 45%, 0.1); padding: 0.4rem 1rem; border-radius: var(--radius-pill); display: inline-block; margin-bottom: 1rem; font-size: 0.9rem; }
+        .error-message { color: #dc2626; font-size: 0.9rem; margin-top: 1rem; display: none; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="ph-fill ph-house-line"></i> FixIt Anywhere</div>
+        </div>
+    </header>
+
+    <div class="feedback-container">
+        <div id="loading-state">
+            <i class="ph-bold ph-circle-notch ph-spin" style="font-size: 3rem; color: var(--primary);"></i>
+            <p style="margin-top: 1rem;">Loading your booking...</p>
+        </div>
+
+        <div id="feedback-form" class="hidden">
+            <div class="service-info" id="service-type-display">Plumbing Service</div>
+            <h1 style="font-size: 2rem; font-family: var(--font-heading); margin-bottom: 0.5rem;">Rate Your Professional</h1>
+            <p id="worker-name-display" style="color: var(--text-muted); margin-bottom: 1rem;">How was your experience with Alex?</p>
+            
+            <div class="star-rating" id="stars">
+                <i class="ph-fill ph-star" data-rating="1"></i>
+                <i class="ph-fill ph-star" data-rating="2"></i>
+                <i class="ph-fill ph-star" data-rating="3"></i>
+                <i class="ph-fill ph-star" data-rating="4"></i>
+                <i class="ph-fill ph-star" data-rating="5"></i>
+            </div>
+
+            <textarea class="comment-box" id="review-text" placeholder="Tell us more about the service..."></textarea>
+            
+            <button class="btn btn-primary" style="width: 100%; font-size: 1.1rem;" onclick="submitFeedback()">Submit Review</button>
+            <p id="error-msg" class="error-message">Failed to submit. Please try again.</p>
+        </div>
+
+        <div id="success-state" class="hidden">
+            <div style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;"><i class="ph-fill ph-check-circle"></i></div>
+            <h2 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 1rem;">Thank You!</h2>
+            <p style="color: var(--text-muted); line-height: 1.6;">Your feedback helps us maintain the highest service standards. We've updated the professional's rating.</p>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 2rem;">Return to Homepage</a>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('bookingId');
+        let selectedRating = 0;
+        let activeBooking = null;
+
+        // Initialize Stars
+        const stars = document.querySelectorAll('#stars i');
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => highlightStars(star.dataset.rating));
+            star.addEventListener('mouseout', () => highlightStars(selectedRating));
+            star.addEventListener('click', () => selectedRating = parseInt(star.dataset.rating));
+        });
+
+        function highlightStars(rating) {
+            stars.forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.rating) <= rating);
+            });
+        }
+
+        // Fetch Booking Details
+        async function loadDetails() {
+            if (!bookingId) {
+                document.getElementById('loading-state').innerHTML = '<p style="color:red;">Invalid booking link. Please contact support.</p>';
+                return;
+            }
+
+            try {
+                // Fetch basic info to show on the page
+                const res = await fetch(`/api/book/${bookingId}`); // We need this endpoint or a similar one
+                if (!res.ok) throw new Error('Booking not found');
+                
+                activeBooking = await res.json();
+                
+                document.getElementById('service-type-display').textContent = `${activeBooking.serviceType.toUpperCase()} SERVICE`;
+                document.getElementById('worker-name-display').textContent = `How was your experience with ${activeBooking.workerName || 'our professional'}?`;
+                
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('feedback-form').classList.remove('hidden');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading-state').innerHTML = '<p style="color:red;">Error loading booking details.</p>';
+            }
+        }
+
+        async function submitFeedback() {
+            if (selectedRating === 0) return alert('Please select a star rating.');
+            
+            const btn = document.querySelector('.btn-primary');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> Submitting...';
+            btn.disabled = true;
+
+            const reviewData = {
+                bookingId: bookingId,
+                workerId: activeBooking.workerId,
+                rating: selectedRating,
+                reviewText: document.getElementById('review-text').value,
+                reviewerName: activeBooking.name
+            };
+
+            try {
+                const res = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewData)
+                });
+
+                if (res.ok) {
+                    document.getElementById('feedback-form').classList.add('hidden');
+                    document.getElementById('success-state').classList.remove('hidden');
+                } else {
+                    document.getElementById('error-msg').style.display = 'block';
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('error-msg').style.display = 'block';
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        loadDetails();
+    </script>
+    <footer style="text-align: center; padding: 4rem 2rem; background: var(--surface); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 FixIt Anywhere. All rights reserved.</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8; color: var(--text-muted);">Developed with ❤️ by **ABIJITH**</p>
+    </footer>
+</body>
+</html>

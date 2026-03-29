@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixIt ANYWHERE - Admin Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><path d='M240,115.39,139.36,32.32a16,16,0,0,0-22.72,0L16,115.39a8,8,0,1,0,10.21,12.35l11.79-9.75V208a16,16,0,0,0,16,16H202a16,16,0,0,0,16-16V118l11.79,9.75a8,8,0,1,0,10.21-12.35ZM144,208H112V160a16,16,0,0,1,32,0Z' fill='%2322c55e'/></svg>">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-hero {
+            padding: 10rem 2rem 4rem;
+            text-align: center;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-hero h1 { font-size: 3rem; font-family: var(--font-heading); color: var(--text-main); }
+        .dashboard-section { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+        .data-card { background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 3rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 600px; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { font-family: var(--font-heading); color: var(--text-muted); font-weight: 500; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        tbody.clickable-rows tr { transition: background var(--transition-fast); cursor: pointer; }
+        tbody tr:hover { background: var(--bg-color); }
+        .status-pill { padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; display: inline-block; }
+        .status-confirmed { background: hsla(110, 50%, 50%, 0.1); color: hsl(110, 50%, 40%); border: 1px solid hsla(110, 50%, 50%, 0.2); }
+        .status-email-sent { background: hsla(200, 70%, 50%, 0.1); color: hsl(200, 70%, 40%); border: 1px solid hsla(200, 70%, 50%, 0.2); }
+        .status-email-failed { background: hsla(0, 70%, 50%, 0.1); color: hsl(0, 70%, 40%); border: 1px solid hsla(0, 70%, 50%, 0.2); }
+        .avail-yes { color: hsl(110, 50%, 40%); font-weight: 600; }
+        .avail-no { color: hsl(0, 70%, 50%); font-weight: 600; }
+        .search-bar { width: 100%; max-width: 300px; padding: 0.5rem 1rem; border-radius: var(--radius-pill); border: 1px solid var(--border-color); font-family: var(--font-body); outline: none; transition: border-color var(--transition-fast); margin-left: 1rem;}
+        .search-bar:focus { border-color: var(--primary); }
+        .btn-delete { background: hsla(0, 80%, 50%, 0.1); color: hsl(0, 80%, 50%); padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+        .btn-delete:hover { background: hsla(0, 80%, 50%, 0.2); color: hsl(0, 80%, 50%); border-color: transparent;}
+        .booking-detail-row { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .booking-detail-val { font-size: 1.1rem; color: var(--text-main); font-weight: 500;}
+
+        /* Responsive Hero Buttons */
+        @media (max-width: 600px) {
+            .admin-hero { padding: 8rem 1rem 3rem; }
+            .admin-hero h1 { font-size: 2.2rem; }
+            .admin-hero .btn-group { flex-direction: column; width: 100%; }
+            .admin-hero .btn { width: 100%; }
+            .search-bar { max-width: 100%; margin: 0; }
+            .data-card { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="ph-fill ph-shield-check"></i> Admin Dashboard
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="admin-hero">
+        <h1>Overview Dashboard</h1>
+        <div class="btn-group" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="showSection('bookings')">Bookings</button>
+            <button class="btn btn-outline" onclick="showSection('workers')">Professionals</button>
+            <button class="btn btn-outline" id="request-tab-btn" onclick="showSection('requests')">Requests <span id="request-count" style="background: red; color: white; padding: 0.1rem 0.4rem; border-radius: 50%; font-size: 0.7rem; display: none;">0</span></button>
+        </div>
+    </div>
+
+    <section class="dashboard-section" id="section-bookings">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h2 style="font-size: 1.8rem; font-family: var(--font-heading); margin: 0;">Recent Bookings</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Click on any booking to view full details.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <select id="filter-booking-category" class="search-bar" style="margin-left: 0;">
+                    <option value="">All Services</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="cleaning">Cleaning</option>
+                    <option value="carpentry">Carpentry</option>
+                    <option value="appliance">Appliance</option>
+                    <option value="car-wash">Car Wash</option>
+                </select>
+                <select id="sort-booking" class="search-bar" style="max-width: 150px; margin-left: 0;">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+                <input type="text" id="booking-search" class="search-bar" placeholder="Search customer or email...">
+                <button class="btn btn-primary" onclick="openExportModal()" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="ph-bold ph-download-simple"></i> Download Logs
+                </button>
+            </div>
+        </div>
+        <div class="data-card" id="bookings-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Service</th>
+                        <th>Date & Time</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-body" class="clickable-rows">
+                    <tr><td colspan="4" class="text-center" style="padding: 2rem;">Loading bookings...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <section class="dashboard-section" id="section-workers" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h2 style="font-size: 1.8rem; font-family: var(--font-heading); margin: 0;">Our Professionals</h2>
+                    <select id="filter-category" class="search-bar" style="max-width: 150px;">
+                        <option value="">All Categories</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="appliance">Appliance</option>
+                        <option value="car-wash">Car Wash</option>
+                        <option value="garbage">Garbage</option>
+                    </select>
+                    <select id="filter-rating" class="search-bar" style="max-width: 150px;">
+                        <option value="0">All Ratings</option>
+                        <option value="4.5">4.5+ Stars</option>
+                        <option value="4.0">4.0+ Stars</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="text" id="worker-search" class="search-bar" placeholder="Search by name...">
+                    <button class="btn btn-primary" id="open-worker-modal-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add Worker</button>
+                </div>
+            </div>
+        
+            <div class="data-card" id="workers-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Expertise</th>
+                            <th>Jobs</th>
+                            <th>Rating</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="workers-body">
+                        <tr><td colspan="6" class="text-center" style="padding: 2rem;">Loading workers...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+    </section>
+
+    <section class="dashboard-section" id="section-requests" style="display: none;">
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem; font-family: var(--font-heading);">Registration Requests</h2>
+            <div class="data-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Service</th>
+                            <th>Exp</th>
+                            <th>Applied At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-body">
+                        <tr><td colspan="5" class="text-center" style="padding: 2rem;">No pending requests.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo footer-logo">
+                <i class="ph-fill ph-house-line"></i> FixIt Anywhere
+            </div>
+            <p>Premium home services, delivered right to your doorstep.</p>
+            <p class="copyright">&copy; 2026 FixIt Anywhere. All rights reserved.</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.8;">Developed with ❤️ by **ABIJITH**</p>
+        </div>
+    </footer>
+
+    <!-- Add Worker Modal -->
+    <div id="worker-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <button class="close-modal" id="close-worker-modal" style="cursor:pointer;"><i class="ph-bold ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Add Professional</h2>
+                <p>Register a new worker into the system.</p>
+            </div>
+            <form id="add-worker-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="w-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="w-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Service Category</label>
+                    <select id="w-service" required>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="appliance">Appliance Servicing</option>
+                        <option value="car-wash">Car Wash</option>
+                        <option value="garbage">Garbage Collection</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary submit-btn">Save Worker</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Details Modal -->
+    <div id="booking-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <button class="close-modal" id="close-booking-modal" style="cursor:pointer;"><i class="ph-bold ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Booking Details</h2>
+                <span class="status-pill status-confirmed" style="margin-top: 0.5rem;" id="bd-status">Confirmed</span>
+            </div>
+            
+            <div class="booking-detail-row">
+                <div class="booking-detail-label">Service</div>
+                <div class="booking-detail-val" id="bd-service" style="text-transform: capitalize;"></div>
+            </div>
+            
+            <div class="booking-detail-row">
+                <div class="booking-detail-label">Customer Info</div>
+                <div class="booking-detail-val" id="bd-name"></div>
+                <div style="color: var(--text-muted); font-size: 0.9rem;" id="bd-contact"></div>
+            </div>
+            
+            <div class="booking-detail-row">
+                <div class="booking-detail-label">Address</div>
+                <div class="booking-detail-val" id="bd-address"></div>
+            </div>
+
+            <div class="booking-detail-row">
+                <div class="booking-detail-label">Appointment Time</div>
+                <div class="booking-detail-val" id="bd-datetime"></div>
+            </div>
+
+            <div class="booking-detail-row" style="border-bottom: none; margin-bottom: 0; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div class="booking-detail-label">Email Status</div>
+                    <div id="bd-email-status"></div>
+                </div>
+                <button class="btn btn-outline" id="resend-email-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="ph-bold ph-paper-plane-tilt"></i> Resend Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal-backdrop hidden">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="close-modal" onclick="closeExportModal()" style="cursor:pointer;"><i class="ph-bold ph-x"></i></button>
+            <div class="modal-header">
+                <h2>Export Bookings</h2>
+                <p>Select a date range to download the Excel report.</p>
+            </div>
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" id="export-start" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
+                <label>End Date</label>
+                <input type="date" id="export-end" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" onclick="processExport()">Download .xlsx</button>
+        </div>
+    </div>
+
+    <!-- Worker Details Modal -->
+    <div id="worker-details-modal" class="modal-backdrop hidden">
+        <div class="modal-content" style="max-width: 500px;">
+            <button class="close-modal" id="close-worker-details" style="cursor:pointer;"><i class="ph-bold ph-x"></i></button>
+            <div class="modal-header">
+                <div id="wd-avatar" style="width: 64px; height: 64px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem; margin: 0 auto 1rem;"></div>
+                <h2 id="wd-name" style="margin-bottom: 0.25rem;"></h2>
+                <p id="wd-email" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+                <div id="wd-badge" style="display:inline-block; margin-top: 0.5rem;" class="status-pill status-confirmed"></div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; text-align: center;">
+                <div style="background: var(--bg-color); padding: 1rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Rating</div>
+                    <div id="wd-rating" style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);"></div>
+                </div>
+                <div style="background: var(--bg-color); padding: 1rem; border-radius: var(--radius-md);">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">Total Jobs</div>
+                    <div id="wd-jobs" style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);"></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <h3 style="font-size: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Recent Performance</h3>
+                <div id="wd-recent-list" style="max-height: 200px; overflow-y: auto;">
+                    <!-- Recent bookings will be loaded here -->
+                </div>
+            </div>
+
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1.5rem;" onclick="document.getElementById('worker-details-modal').classList.add('hidden')">Close Profile</button>
+        </div>
+    </div>
+
+    <script>
+        let globalWorkers = [];
+        let globalBookings = [];
+
+        // Modals
+        const workerModal = document.getElementById('worker-modal');
+        const bookingDetModal = document.getElementById('booking-modal');
+        const workerDetailsModal = document.getElementById('worker-details-modal');
+        
+        document.getElementById('open-worker-modal-btn').addEventListener('click', () => workerModal.classList.remove('hidden'));
+        document.getElementById('close-worker-modal').addEventListener('click', () => workerModal.classList.add('hidden'));
+        document.getElementById('close-booking-modal').addEventListener('click', () => bookingDetModal.classList.add('hidden'));
+        document.getElementById('close-worker-details').addEventListener('click', () => workerDetailsModal.classList.add('hidden'));
+
+        // Add Worker Form
+        document.getElementById('add-worker-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            const workerData = {
+                name: document.getElementById('w-name').value,
+                email: document.getElementById('w-email').value,
+                serviceType: document.getElementById('w-service').value,
+                rating: 5.0,
+                available: true,
+                totalJobs: 0
+            };
+
+            try {
+                const res = await fetch('/api/admin/workers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(workerData)
+                });
+                if (res.ok) {
+                    workerModal.classList.add('hidden');
+                    e.target.reset();
+                    loadAdminData();
+                } else {
+                    alert('Failed to add worker.');
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.textContent = 'Save Worker';
+                btn.disabled = false;
+            }
+        });
+
+        // Delete Worker Function
+        window.deleteWorker = async function(id) {
+            if(!confirm('Are you sure you want to remove this worker?')) return;
+            try {
+                const res = await fetch(`/api/admin/workers/${id}`, { method: 'DELETE' });
+                if(res.ok) {
+                    loadAdminData();
+                } else {
+                    alert('Failed to delete worker.');
+                }
+            } catch(e) { console.error(e); }
+        };
+
+        // Open Booking Details Function
+        window.openBookingDetails = function(id) {
+            const b = globalBookings.find(bk => bk.id === id);
+            if(!b) return;
+            document.getElementById('bd-status').textContent = b.status || 'Confirmed';
+            document.getElementById('bd-service').textContent = b.serviceType.replace('-', ' ');
+            document.getElementById('bd-name').textContent = b.name;
+            document.getElementById('bd-contact').textContent = `${b.phone} | ${b.email}`;
+            document.getElementById('bd-address').textContent = b.address;
+            document.getElementById('bd-datetime').textContent = `${b.date} at ${b.time}`;
+            
+            const emailStatusEl = document.getElementById('bd-email-status');
+            if (b.emailSent) {
+                emailStatusEl.innerHTML = '<span class="status-pill status-email-sent">Sent</span>';
+            } else {
+                emailStatusEl.innerHTML = '<span class="status-pill status-email-failed">Failed</span>';
+            }
+
+            const resendBtn = document.getElementById('resend-email-btn');
+            resendBtn.onclick = async () => {
+                resendBtn.disabled = true;
+                const originalText = resendBtn.innerHTML;
+                resendBtn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> Sending...';
+                try {
+                    const res = await fetch(`/api/admin/bookings/${id}/resend-email`, { method: 'POST' });
+                    if (res.ok) {
+                        alert('Email sent successfully!');
+                        loadAdminData();
+                        bookingDetModal.classList.add('hidden');
+                    } else {
+                        alert('Failed to send email.');
+                    }
+                } catch (e) { console.error(e); }
+                finally {
+                    resendBtn.disabled = false;
+                    resendBtn.innerHTML = originalText;
+                }
+            };
+
+            bookingDetModal.classList.remove('hidden');
+        };
+
+        // Render Workers
+        function renderWorkers(workers) {
+            const wBody = document.getElementById('workers-body');
+            if (workers.length === 0) {
+                wBody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 2rem;">No workers found.</td></tr>';
+                return;
+            }
+            wBody.innerHTML = workers.map(w => `
+                <tr onclick="openWorkerDetails('${w.id}')" style="cursor: pointer;">
+                    <td><div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">
+                            ${w.name.split(' ').map(n=>n[0]).join('')}
+                        </div>
+                        <strong>${w.name}</strong>
+                    </div></td>
+                    <td><span style="text-transform: capitalize;">${w.serviceType.replace('-', ' ')}</span></td>
+                    <td>${w.totalJobs || 0}</td>
+                    <td><div style="display: flex; align-items: center; gap: 0.25rem;">
+                        <i class="ph-fill ph-star" style="color: #FFB800;"></i> ${w.rating}
+                    </div></td>
+                    <td>${w.available ? '<span class="avail-yes"><i class="ph-bold ph-check"></i> Available</span>' : '<span class="avail-no"><i class="ph-bold ph-x"></i> Busy</span>'}</td>
+                    <td><button class="btn btn-outline btn-delete" onclick="event.stopPropagation(); deleteWorker('${w.id}')">Remove</button></td>
+                </tr>
+            `).join('');
+        }
+
+        // Open Worker Details
+        window.openWorkerDetails = function(id) {
+            const worker = globalWorkers.find(w => w.id === id);
+            if (!worker) return;
+
+            document.getElementById('wd-name').textContent = worker.name;
+            document.getElementById('wd-email').textContent = worker.email;
+            document.getElementById('wd-avatar').textContent = worker.name.split(' ').map(n=>n[0]).join('');
+            document.getElementById('wd-badge').textContent = worker.serviceType.replace('-', ' ');
+            document.getElementById('wd-rating').innerHTML = `<i class="ph-fill ph-star" style="color: #FFB800;"></i> ${worker.rating}`;
+            document.getElementById('wd-jobs').textContent = worker.totalJobs || 0;
+
+            // Load recent bookings for this worker
+            const recentBookings = globalBookings.filter(b => b.workerId === id).slice(0, 5);
+            const listEl = document.getElementById('wd-recent-list');
+            
+            if (recentBookings.length === 0) {
+                listEl.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 1rem;">No recent jobs found.</p>';
+            } else {
+                listEl.innerHTML = recentBookings.map(b => `
+                    <div style="padding: 0.75rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <strong>${b.name}</strong>
+                            <span style="color: var(--primary); font-weight: 600;">${b.status || 'Done'}</span>
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem;">${b.date} • ${b.serviceType}</div>
+                    </div>
+                `).join('');
+            }
+
+            workerDetailsModal.classList.remove('hidden');
+        };
+
+        // Consolidated modal and form logic above
+
+        // Show Section Logic
+        window.showSection = function(section) {
+            document.getElementById('section-bookings').style.display = section === 'bookings' ? 'block' : 'none';
+            document.getElementById('section-workers').style.display = section === 'workers' ? 'block' : 'none';
+            document.getElementById('section-requests').style.display = section === 'requests' ? 'block' : 'none';
+            
+            // Toggle active button styles
+            const btns = document.querySelectorAll('.admin-hero button');
+            btns.forEach(btn => btn.className = 'btn btn-outline');
+            if (section === 'bookings') btns[0].className = 'btn btn-primary';
+            if (section === 'workers') btns[1].className = 'btn btn-primary';
+            if (section === 'requests') btns[2].className = 'btn btn-primary';
+        };
+
+        // Approve Worker Function
+        window.approveWorker = async function(id) {
+            try {
+                const res = await fetch(`/api/admin/worker-requests/${id}/approve`, { method: 'POST' });
+                if (res.ok) {
+                    alert('Worker approved!');
+                    loadAdminData();
+                } else {
+                    alert('Approval failed.');
+                }
+            } catch (e) { console.error(e); }
+        };
+
+        // Render Requests
+        function renderRequests(requests) {
+            const rBody = document.getElementById('requests-body');
+            const countEl = document.getElementById('request-count');
+            
+            if (requests.length > 0) {
+                countEl.textContent = requests.length;
+                countEl.style.display = 'inline-block';
+            } else {
+                countEl.style.display = 'none';
+            }
+
+            if (requests.length === 0) {
+                rBody.innerHTML = '<tr><td colspan="5" class="text-center" style="padding: 2rem;">No pending requests.</td></tr>';
+                return;
+            }
+            rBody.innerHTML = requests.map(r => `
+                <tr>
+                    <td><strong>${r.name}</strong><br><span style="color:var(--text-muted); font-size:0.8rem;">${r.email}</span></td>
+                    <td style="text-transform: capitalize;">${r.serviceType}</td>
+                    <td>${r.experience}</td>
+                    <td>${new Date(r.createdAt).toLocaleDateString()}</td>
+                    <td><button class="btn btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;" onclick="approveWorker('${r.id}')">Approve</button></td>
+                </tr>
+            `).join('');
+        }
+
+        // Search/Filter Workers
+        function applyFilters() {
+            const term = document.getElementById('worker-search').value.toLowerCase();
+            const cat = document.getElementById('filter-category').value.toLowerCase();
+            const minRate = parseFloat(document.getElementById('filter-rating').value);
+
+            const filtered = globalWorkers.filter(w => {
+                const matchTerm = w.name.toLowerCase().includes(term);
+                const matchCat = cat === "" || w.serviceType.toLowerCase() === cat;
+                const matchRate = w.rating >= minRate;
+                return matchTerm && matchCat && matchRate;
+            });
+            renderWorkers(filtered);
+        }
+
+        document.getElementById('worker-search').addEventListener('input', applyFilters);
+        document.getElementById('filter-category').addEventListener('change', applyFilters);
+        document.getElementById('filter-rating').addEventListener('change', applyFilters);
+
+        function applyBookingFilters() {
+            const term = document.getElementById('booking-search').value.toLowerCase();
+            const cat = document.getElementById('filter-booking-category').value.toLowerCase();
+            const sort = document.getElementById('sort-booking').value;
+
+            let filtered = globalBookings.filter(b => {
+                const matchTerm = b.name.toLowerCase().includes(term) || (b.email && b.email.toLowerCase().includes(term));
+                const matchCat = cat === "" || (b.serviceType && b.serviceType.toLowerCase() === cat);
+                return matchTerm && matchCat;
+            });
+
+            // Sorting Logic
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return sort === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            const bBody = document.getElementById('bookings-body');
+            if (filtered.length === 0) {
+                bBody.innerHTML = '<tr><td colspan="5" class="text-center" style="padding: 2rem;">No matching bookings found.</td></tr>';
+                return;
+            }
+
+            bBody.innerHTML = filtered.map(b => `
+                <tr onclick="openBookingDetails('${b.id}')">
+                    <td><strong>${b.name}</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">${b.phone}</span></td>
+                    <td><span style="font-weight: 500; text-transform: capitalize;">${b.serviceType ? b.serviceType.replace('-', ' ') : 'General'}</span></td>
+                    <td>${b.date}<br><span style="color: var(--text-muted); font-size: 0.85rem;">at ${b.time}</span></td>
+                    <td>${b.emailSent ? '<span class="status-pill status-email-sent">Sent</span>' : '<span class="status-pill status-email-failed">Failed</span>'}</td>
+                    <td><span class="status-pill status-confirmed">${b.status || 'Confirmed'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('booking-search').addEventListener('input', applyBookingFilters);
+        document.getElementById('filter-booking-category').addEventListener('change', applyBookingFilters);
+        document.getElementById('sort-booking').addEventListener('change', applyBookingFilters);
+
+        // Export Functions
+        function openExportModal() { document.getElementById('export-modal').classList.remove('hidden'); }
+        function closeExportModal() { document.getElementById('export-modal').classList.add('hidden'); }
+
+        async function processExport() {
+            const start = document.getElementById('export-start').value;
+            const end = document.getElementById('export-end').value;
+            
+            if (!start || !end) return alert('Please select both start and end dates.');
+
+            const btn = document.querySelector('#export-modal .btn-primary');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i> Generating...';
+            btn.disabled = true;
+
+            try {
+                const url = `/api/admin/bookings/export?startDate=${start}&endDate=${end}`;
+                const res = await fetch(url);
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = `fixit_report_${start}_to_${end}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    closeExportModal();
+                } else {
+                    alert('Export failed. No bookings found in this range.');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Export error.');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Load Data - Parallelized
+        async function loadAdminData() {
+            try {
+                const [bRes, wRes, rRes] = await Promise.all([
+                    fetch('/api/admin/bookings'),
+                    fetch('/api/admin/workers'),
+                    fetch('/api/admin/worker-requests')
+                ]);
+
+                // Update total status counts or something if needed here
+
+                // Render Bookings
+                if (bRes.ok) {
+                    globalBookings = await bRes.json();
+                    applyBookingFilters();
+                }
+
+                // Render Workers
+                if (wRes.ok) {
+                    globalWorkers = await wRes.json();
+                    renderWorkers(globalWorkers);
+                }
+
+                // Render Requests
+                if (rRes.ok) {
+                    const requests = await rRes.json();
+                    renderRequests(requests);
+                }
+
+            } catch (err) {
+                console.error('Admin data load error:', err);
+                // Optionally show a non-blocking toast
+            }
+        }
+        
+        loadAdminData();
+    </script>
+</body>
+</html>
